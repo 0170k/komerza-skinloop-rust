@@ -1,0 +1,29 @@
+name = "komerza-skinloop-rust"
+main = "src/worker.ts"
+compatibility_date = "2026-09-22"
+
+[vars]
+SKINLOOP_API_BASE_URL = "https://api.skinloop.io"
+SKINLOOP_HOSTED_ORIGIN = "https://checkout.skinloop.io"
+KOMERZA_STORE_ID = "2b77a260-c8b6-421e-8ed6-bc0786e1dd4a"
+SHOP_URL = "https://ketaminecheats.com/"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "komerza-skinloop-rust"
+database_id = "b996a963-bbeb-4d57-b57f-93fe5bf73d94"
+migrations_dir = "migrations"
+
+[[queues.producers]]
+binding = "FULFILLMENT_QUEUE"
+queue = "komerza-skinloop-rust-fulfillment"
+
+[[queues.consumers]]
+queue = "komerza-skinloop-rust-fulfillment"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 10
+dead_letter_queue = "komerza-skinloop-rust-dead-letter"
